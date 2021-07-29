@@ -13,6 +13,9 @@ println(Green, "This is a success message")
 println(Cyan, "This is an info message")
 ```
 
+![img](img/colors.png)
+
+
 Setting colors for all subsequent statements:
 
 ```
