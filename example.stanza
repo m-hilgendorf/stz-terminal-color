@@ -1,0 +1,11 @@
+defpackage example:
+  import core
+  import collections
+  import terminal-color
+
+print(Red, Bold, "Error:")
+println(Red, " This is an error message")
+print(Yellow, Underlined, "Warning:")
+println(Yellow, " This is a warning message")
+println(Green, "This is a success message")
+println(Cyan, "This is an info message")

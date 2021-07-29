@@ -1,0 +1,91 @@
+defpackage terminal-color:
+  import core
+  import collections
+
+public defenum TerminalColor:
+  NoColor,
+  Black,
+  Red,
+  Green,
+  Yellow,
+  Blue,
+  Magenta,
+  Cyan,
+  White,
+
+public defenum TerminalModifier:
+  NoModifier, ; 0
+  Bold, ; 1
+  __no_mod_1  ; 2
+  __no_mod_2  ; 3
+  Underlined, ; 4
+
+defn color-code (c:TerminalColor):
+  switch(c):
+    Black:   30
+    Red:     31
+    Green:   32
+    Yellow:  33
+    Blue:    34
+    Magenta: 35
+    Cyan:    36
+    White:   37
+
+defn to-string (c:TerminalColor, modifier:TerminalModifier):
+  val s = 
+    switch(c):
+      NoColor: "e[0m"
+      else: 
+        to-string("e[%_;%_m" % [to-int(modifier), color-code(c)])
+
+  replace(s, 'e', to-char(27))
+
+public defn set-terminal-color (o:OutputStream, c:TerminalColor, m:TerminalModifier):
+  print(o, to-string(c, m))
+
+public defn set-terminal-color (o:OutputStream, c:TerminalColor):
+  set-terminal-color(o, c, NoModifier)
+  
+public defn print (o:OutputStream, c:TerminalColor, m:TerminalModifier, x):
+  set-terminal-color(o, c, m)
+  print(o, x)
+  set-terminal-color(o, NoColor, NoModifier)
+
+public defn println (o:OutputStream, c:TerminalColor, m:TerminalModifier, x):
+  print(o, c, m, x)
+  print(o, '\n')
+
+public defn lnprint (o:OutputStream, c:TerminalColor, m:TerminalModifier, x):
+  print(o, '\n')
+  print(o, c, m, x)
+
+public defn print (o:OutputStream, c:TerminalColor, x):
+  set-terminal-color(o, c)
+  print(o, x)
+  set-terminal-color(o, NoColor)
+
+public defn println (o:OutputStream, c:TerminalColor, x):
+  print(o, c, x)
+  print('\n')
+
+public defn lnprint (o:OutputStream, c:TerminalColor, x):
+  print('\n')
+  print(o, c, x)
+
+public defn print (c:TerminalColor, m:TerminalModifier, x):
+  print(STANDARD-OUTPUT-STREAM, c, m, x)
+
+public defn println (c:TerminalColor, m:TerminalModifier, x):
+  println(STANDARD-OUTPUT-STREAM, c, m, x)
+
+public defn lnprint (c:TerminalColor, m:TerminalModifier, x):
+  lnprint(STANDARD-OUTPUT-STREAM, c, m, x)
+
+public defn print (c:TerminalColor, x):
+  print(STANDARD-OUTPUT-STREAM, c, NoModifier, x)
+
+public defn println (c:TerminalColor, x):
+  println(STANDARD-OUTPUT-STREAM, c, NoModifier, x)
+
+public defn lnprint (c:TerminalColor, x):
+  lnprint(STANDARD-OUTPUT-STREAM, c, NoModifier, x)

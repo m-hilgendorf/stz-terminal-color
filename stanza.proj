@@ -1,0 +1,7 @@
+package terminal-color defined-in "terminal-color.stanza"
+
+build colors :
+  inputs: 
+    "example.stanza"
+  o: "build/colors"
+  pkg: "build/pkg"
